@@ -17,7 +17,7 @@ async function shot(name,m,scrollTo){await send('Emulation.setDeviceMetricsOverr
 const D={width:1440,height:900,deviceScaleFactor:1,mobile:false};
 await shot('hero',D,null);
 const total=await ev('document.documentElement.scrollHeight');const worksTop=await ev('document.getElementById("works").offsetTop');
-await shot('works1',D,worksTop+700);
+await shot('works1',D,worksTop+700);const aboutTop=await ev('document.getElementById("about").offsetTop');await shot('about',D,aboutTop);
 console.log('total height',total,'overflow',await ev('document.documentElement.scrollWidth-innerWidth'));
 const errs=[];for(const e of events){if(e.method==='Runtime.exceptionThrown')errs.push((e.params.exceptionDetails.exception||{}).description||e.params.exceptionDetails.text);if(e.method==='Log.entryAdded'&&e.params.entry.level==='error')errs.push('LOG '+e.params.entry.text.slice(0,160));if(e.method==='Runtime.consoleAPICalled'&&e.params.type==='warning')errs.push('WARN '+e.params.args.map(a=>a.value||'').join(' ').slice(0,200));}
 console.log('errors',JSON.stringify(errs,null,1));

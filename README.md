@@ -1,4 +1,4 @@
-# 西島浩史 — Hiroshift（2026）
+# Hiroshift≈（2026）
 
 個人ポートフォリオ。素の HTML / CSS / JS と WebGL2（フレームワークなし・ビルドなし）。
 公開先想定＝ https://hiroshift.github.io/hiroshift-2026/
