@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Hiroshift≈</title>
-<meta name="description" content="AI駆動開発で、中小の業務システムを一人で作っています。Hiroshift≈ のポートフォリオ。個人で作ってきたもの、経歴、できること。">
+<meta name="description" content="AI駆動開発で、中小の業務システムを一人で作っています。Hiroshift≈ のポートフォリオ。個人で作ってきたアプリ、経歴、できること。">
 <link rel="canonical" href="https://hiroshift.github.io/hiroshift-2026/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hiroshift≈">
@@ -93,9 +93,9 @@ html.reduce .rv{opacity:1;transform:none;transition:none}
 .feat{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,4vw,64px);align-items:center;padding-bottom:clamp(40px,6vw,96px);margin-bottom:clamp(40px,6vw,96px);border-bottom:1px solid var(--line)}
 @media (max-width:900px){.feat{grid-template-columns:1fr}}
 .img{position:relative;overflow:hidden;background:var(--ink-2);border-radius:6px}
-.feat .img{aspect-ratio:16/10}
-.img img{width:100%;height:100%;object-fit:cover;object-position:left top;transform:scale(1.02);transition:transform 1.4s var(--ease)}
-.feat:hover .img img,.card:hover .img img{transform:scale(1.06)}
+.feat .img{aspect-ratio:16/9}
+.img img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 1.4s var(--ease)}
+.feat:hover .img img,.card:hover .img img{transform:scale(1.04)}
 .st{position:absolute;left:14px;top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:7px 11px;background:var(--ink);color:var(--paper);border-radius:999px}
 .feat .txt{display:grid;gap:18px}
 .feat .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
@@ -116,7 +116,7 @@ html.reduce .rv{opacity:1;transform:none;transition:none}
 @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:600px){.grid{grid-template-columns:1fr;gap:40px}}
 .card{display:grid;gap:14px;align-content:start}
-.card .img{aspect-ratio:4/3}
+.card .img{aspect-ratio:3/2}
 .card .in{display:grid;gap:8px}
 .card .idx{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--fog)}
 .card h3{font-family:var(--disp);font-size:clamp(20px,1.8vw,26px);letter-spacing:-.03em;line-height:1.1}
@@ -210,7 +210,7 @@ html.reduce *{animation:none!important;transition:none!important}
     <h1 aria-label="Hiroshift≈" id="vf"><span class="w" data-split>Hiroshift≈</span></h1>
     <div class="sub">
       <div class="en">誰かの「面倒」を、<br>動くものに変える。<span class="sub-en">AI駆動開発で、中小の業務システムを一人で作っています。</span></div>
-      <div><p class="ja">ステージに立つ仕事から始まり、製造の現場を20年、映像の会社を一つ。いまは AI と一緒に、動くものを一人で作っています。ここは、個人で作ってきたものの置き場です。</p><a class="go" href="#works">作品を見る<i></i></a></div>
+      <div><p class="ja">ステージに立つ仕事から始まり、製造の現場を二十年、映像の会社を一つ。いまは AI と一緒に、動くものを一人で作っています。ここに、その置き場を作りました。</p><a class="go" href="#works">作品を見る<i></i></a></div>
     </div>
   </div>
   <div class="wrap foot"><span class="sc"><i></i>Scroll</span><span>Tokyo, JP</span><span id="fps" hidden></span></div>
@@ -218,16 +218,16 @@ html.reduce *{animation:none!important;transition:none!important}
 
 <section id="works" class="sec works">
   <div class="wrap">
-    <div class="head rv"><span class="no">01</span><h2>Selected<br>works<small>個人で作ってきたもの。触れるものは、そのまま開きます。</small></h2></div>
-    <article class="feat rv" data-url="https://udify.app/workflow/wY2Xn88ZCgYMkR0M" data-desc="電話対応のときに、相手の情報と状況を入力するだけで、一次返信の文面・現場への調査依頼・記録台帳を自動で作るエージェント。記録にかかる時間を計測し、削減を定量で検証した。業務効率化アプリコンテストで優秀作品賞。">
+    <div class="head rv"><span class="no">01</span><h2>Selected<br>works<small>個人で作ってきたもの。いま動くものは、その場で開けます。</small></h2></div>
+    <article class="feat rv" data-url="https://udify.app/workflow/wY2Xn88ZCgYMkR0M" data-desc="電話対応のときに、相手の情報と状況を入力するだけで、一次返信の文面・現場への調査依頼・記録台帳を自動で作るエージェント。記録にかかる時間を計り、どれだけ短くなったかを数字で確かめた。AIカレッジの業務効率化アプリコンテストで優秀作品賞。">
       <div class="img"><img src="assets/img/claim.webp" width="600" height="334" alt="クレーム一次対応AIエージェントの入力画面" loading="lazy"><span class="st">Award</span></div>
       <div class="txt">
         <span class="k">Featured — 01</span>
         <h3>クレーム一次対応・台帳自動化 AI エージェント</h3>
         <dl class="psr">
-          <div><dt>問題</dt><dd>電話を受けた人が、返信文・現場への依頼・台帳の記入を、別々に手で書いていた。</dd></div>
-          <div><dt>解決</dt><dd>相手の情報と状況を三つ入れると、三つの文書が同時にできあがる。最後に人が確かめて送る。</dd></div>
-          <div><dt>結果</dt><dd>記入にかかる時間を計測して削減を確かめ、業務効率化アプリコンテストで優秀作品賞。</dd></div>
+          <div><dt>問題</dt><dd>電話を受けた人が、返信文、現場への依頼、台帳の記入を、別々に手作業でやっていた。</dd></div>
+          <div><dt>解決</dt><dd>相手の情報と状況を入力すると、三つの文書が一度にできあがる。最後に人が確かめて送る。</dd></div>
+          <div><dt>結果</dt><dd>記入にかかる時間を計り、どれだけ減ったかを数字で出した。AIカレッジの業務効率化アプリコンテストで優秀作品賞。</dd></div>
         </dl>
         <div class="acts"><a class="act fill" href="https://udify.app/workflow/wY2Xn88ZCgYMkR0M" target="_blank" rel="noopener">アプリを開く</a><button type="button" class="act" data-detail>詳細を見る</button><span class="tags">Dify · Gemini 2.5 · GAS · Sheets</span></div>
       </div>
@@ -238,7 +238,7 @@ html.reduce *{animation:none!important;transition:none!important}
         <div class="in"><span class="idx">02</span><h3>Make me happy</h3><p>生成AIの進化を、3年ぶんの短い動画で追いかけているチャンネル。</p><span class="tags">Shorts · Canva · Veo</span>
         <div class="acts"><a class="act" href="https://www.youtube.com/@makemehappy818" target="_blank" rel="noopener">チャンネルを開く</a><button type="button" class="act ghost" data-detail>詳細</button></div></div>
       </article>
-      <article class="card" data-url="https://setsuyaku-income-v2.onrender.com" data-desc="「節約した金額」を「収入」として記録し、それが何分の労働に相当するかを見せる PWA。電卓式のワンタップ入力、連続記録、週次サマリー、年間予測。RSpec 89 テスト。">
+      <article class="card" data-url="https://setsuyaku-income-v2.onrender.com" data-desc="「節約した金額」を「収入」として記録し、それが何分ぶん働いた額にあたるかを見せる PWA。電卓式のワンタップ入力、連続記録、週次サマリー、年間予測。RSpec 89 テスト。">
         <div class="img"><img src="assets/img/setsuyaku.webp" width="600" height="400" alt="節約は収入 v2 の画面" loading="lazy"><span class="st">Beta</span></div>
         <div class="in"><span class="idx">03</span><h3>節約は収入 v2</h3><p>節約を、収入として数える。何分ぶん働いたことになるかまで出す。</p><span class="tags">Rails · PWA · RSpec</span>
         <div class="acts"><a class="act" href="https://setsuyaku-income-v2.onrender.com" target="_blank" rel="noopener">アプリを開く</a><button type="button" class="act ghost" data-detail>詳細</button></div></div>
@@ -248,14 +248,14 @@ html.reduce *{animation:none!important;transition:none!important}
         <div class="in"><span class="idx">04</span><h3>FURIMA</h3><p>決済まで通したフリマ。いまはコードだけが残っている。</p><span class="tags">Rails · MySQL · AWS · Pay.jp</span>
         <div class="acts"><a class="act" href="https://github.com/Hiroshift/furima-41448" target="_blank" rel="noopener">コードを見る</a><button type="button" class="act ghost" data-detail>詳細</button></div></div>
       </article>
-      <article class="card" data-url="https://hiroshift.github.io/woop/" data-desc="WOOP（Wish・Outcome・Obstacle・Plan）の順に書き出すと、目標が計画に変わる。研究で裏付けのある方法を、そのまま画面にした。">
+      <article class="card" data-url="https://hiroshift.github.io/woop/" data-desc="WOOP（Wish・Outcome・Obstacle・Plan）の順に書き出すと、目標が計画に変わる。研究で裏付けられた方法を、そのまま画面にした。">
         <div class="img"><img src="assets/img/woop.webp" width="600" height="370" alt="WOOP アプリの画面" loading="lazy"><span class="st">Live</span></div>
         <div class="in"><span class="idx">05</span><h3>WOOP</h3><p>願いを、結果、障害、計画の順にほどく。四つの欄だけのアプリ。</p><span class="tags">HTML · CSS · JS</span>
         <div class="acts"><a class="act" href="https://hiroshift.github.io/woop/" target="_blank" rel="noopener">アプリを開く</a><button type="button" class="act ghost" data-detail>詳細</button></div></div>
       </article>
       <article class="card" data-url="https://hiroshift.github.io/principle-generator-/" data-desc="名前を入れると、その人のための行動指針が一枚できる。読み上げつき。ナポレオン・ヒルの考え方をもとにしている。">
         <div class="img"><img src="assets/img/principle.webp" width="600" height="400" alt="行動指針ジェネレーターの画面" loading="lazy"><span class="st">Live</span></div>
-        <div class="in"><span class="idx">06</span><h3>行動指針ジェネレーター</h3><p>名前を入れると、声で読み上げる一枚が返ってくる。</p><span class="tags">JS · Web Speech</span>
+        <div class="in"><span class="idx">06</span><h3>行動指針ジェネレーター</h3><p>名前を入れると、その人のための一枚ができる。声でも読み上げます。</p><span class="tags">JS · Web Speech</span>
         <div class="acts"><a class="act" href="https://hiroshift.github.io/principle-generator-/" target="_blank" rel="noopener">アプリを開く</a><button type="button" class="act ghost" data-detail>詳細</button></div></div>
       </article>
       <article class="card" data-url="https://hiroshift.github.io/ukehi/" data-desc="2025年の夏至に合わせて作った、誓いを立てるための一枚。宇宙の節目に、自分の言葉を置く。">
@@ -272,13 +272,13 @@ html.reduce *{animation:none!important;transition:none!important}
     <div class="head rv"><span class="no">02</span><h2>About<small>作り手として、いま。</small></h2></div>
     <div class="about">
       <div>
-        <p class="stmt">ステージで歌う仕事から始まった。製造の現場で二十年、受注と見積と段取りを回した。映像の会社を作った。そして、AI と一緒に自分の手でアプリを作るようになった。作ってきたものの共通点は、ひとつ。誰かの「面倒」を、動くものに変えること。</p>
+        <p class="stmt">ステージで歌う仕事から始まった。製造の現場で二十年、受注、見積、段取りを回した。映像の会社を作った。そして、AI と一緒に自分の手でアプリを作るようになった。作ってきたものの共通点は、ひとつ。誰かの「面倒」を、動くものに変えること。</p>
         <ul class="tl rv">
           <li><span class="y">1997</span><div><b>音楽</b><p>新人発掘オーディションでグランプリ。ビクターエンタテインメントからメジャーデビュー。全国ツアーとラジオのパーソナリティ。</p></div></li>
           <li><span class="y">2003</span><div><b>製造業の現場</b><p>受注・見積・段取り・納期。年間800件規模の案件進行を、20年以上統括。</p></div></li>
           <li><span class="y">2017</span><div><b>映像</b><p>バギーズ合同会社を設立。企画・撮影・編集を自分の手で。</p></div></li>
           <li><span class="y">2025</span><div><b>Hiroshift</b><p>自分の現場の面倒を、自分でアプリにするところから。テックキャンプで学び直し。</p></div></li>
-          <li><span class="y">2026</span><div><b>受賞</b><p>自社業務の AI エージェントで、AIカレッジ 優秀作品賞。</p></div></li>
+          <li><span class="y">2026</span><div><b>受賞</b><p>自社業務の AI エージェントで、AIカレッジの業務効率化アプリコンテスト 優秀作品賞。</p></div></li>
         </ul>
         <div class="skills rv"><span>Claude Code</span><span>Codex</span><span>Gemini</span><span>Dify</span><span>Python</span><span>JavaScript</span><span>Ruby on Rails</span><span>GAS</span><span>WebGL</span><span>Blender</span><span>Figma</span><span>Firebase</span><span>MySQL / PostgreSQL</span><span>AWS</span></div>
       </div>
@@ -291,8 +291,8 @@ html.reduce *{animation:none!important;transition:none!important}
   <div class="wrap">
     <div class="head rv"><span class="no">03</span><h2>Services<small>できること。</small></h2></div>
     <div class="svc rv">
-      <div class="row"><span class="no">01</span><div><h3>AI プロトタイピング</h3><p>話を聞いたら、仕様書より先に動く画面を作ります。触って、直して、それから決める。</p></div><span class="ar">Fast</span></div>
-      <div class="row"><span class="no">02</span><div><h3>Web アプリ開発</h3><p>企画から設計、実装、運用に乗せるところまで。ブラウザだけで完結する作りが得意です。</p></div><span class="ar">End to end</span></div>
+      <div class="row"><span class="no">01</span><div><h3>AI プロトタイピング</h3><p>話を聞いたら、仕様書より先に、動く画面を作ります。触って、直して、それから決める。</p></div><span class="ar">Fast</span></div>
+      <div class="row"><span class="no">02</span><div><h3>Web アプリ開発</h3><p>企画、設計、実装、運用に乗せるところまで。ブラウザだけで完結する構成が得意です。</p></div><span class="ar">End to end</span></div>
       <div class="row"><span class="no">03</span><div><h3>Web サイト制作</h3><p>ポートフォリオやLPなど、目的に合わせて一枚から。いま見ているこのページも、素の HTML と WebGL で書いています。</p></div><span class="ar">Craft</span></div>
     </div>
   </div>
@@ -305,7 +305,7 @@ html.reduce *{animation:none!important;transition:none!important}
       <a href="https://zenn.dev/hiroshift" target="_blank" rel="noopener"><span class="k">Tech</span><span><b>Zenn</b><small>AI駆動開発の実装と判断を、記事にしています。</small></span><span class="u">zenn.dev/hiroshift</span></a>
       <a href="https://note.com/hiroshift_fx" target="_blank" rel="noopener"><span class="k">FX</span><span><b>note</b><small>トレードの記録と戦略。</small></span><span class="u">note.com/hiroshift_fx</span></a>
       <a href="https://www.youtube.com/@Hiroshift-e4w" target="_blank" rel="noopener"><span class="k">Video</span><span><b>YouTube</b><small>開発の過程と解説。準備中。</small></span><span class="u">youtube.com/@Hiroshift-e4w</span></a>
-      <a href="https://x.com/ai_nishiyan" target="_blank" rel="noopener"><span class="k">Daily</span><span><b>X</b><small>作りかけの話は、だいたいここに先に出ます。</small></span><span class="u">x.com/ai_nishiyan</span></a>
+      <a href="https://x.com/ai_nishiyan" target="_blank" rel="noopener"><span class="k">Daily</span><span><b>X</b><small>作りかけの話は、だいたい先にここへ出ます。</small></span><span class="u">x.com/ai_nishiyan</span></a>
     </div>
   </div>
 </section>
@@ -324,7 +324,7 @@ html.reduce *{animation:none!important;transition:none!important}
 </main>
 <footer><div class="wrap"><span>© 2026 Hiroshift≈</span><span>No framework · WebGL2 · Static</span><span id="ft-clock">—</span></div></footer>
 
-<dialog class="m" id="modal"><div class="box"><img id="mImg" src="" alt=""><div class="txt"><span class="tg" id="mTag"></span><h3 id="mTitle"></h3><p id="mDesc"></p><div class="ac"><a id="mOpen" href="#" target="_blank" rel="noopener">Open</a><button type="button" id="mClose">Close</button></div></div></div></dialog>
+<dialog class="m" id="modal"><div class="box"><img id="mImg" src="" alt=""><div class="txt"><span class="tg" id="mTag"></span><h3 id="mTitle"></h3><p id="mDesc"></p><div class="ac"><a id="mOpen" href="#" target="_blank" rel="noopener">Open</a><button type="button" id="mClose">閉じる</button></div></div></div></dialog>
 
 <script>
 (()=>{
