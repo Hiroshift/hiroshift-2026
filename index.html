@@ -38,8 +38,8 @@ h1,h2,h3{font-weight:900;text-wrap:balance}
 .mono{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 .wrap{width:min(100% - clamp(32px,6vw,96px),1520px);margin-inline:auto}
 /* grain */
-.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:2000;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite;mix-blend-mode:overlay}
-@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-4%)}60%{transform:translate(-4%,-2%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+.grain{position:fixed;inset:-64px;pointer-events:none;z-index:2000;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='2' stitchTiles='stitch' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .95 0 0 0 0 .93 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:512px 512px;animation:grain 1.4s steps(7) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-24px,16px)}40%{transform:translate(16px,-32px)}60%{transform:translate(-32px,-16px)}80%{transform:translate(24px,24px)}100%{transform:translate(0,0)}}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-4%)}60%{transform:translate(-4%,-2%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
 @media (prefers-reduced-motion:reduce){.grain{animation:none}}
 /* cursor */
 .cur{position:fixed;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--paper);mix-blend-mode:difference;pointer-events:none;z-index:3000;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),opacity .3s}
@@ -404,13 +404,13 @@ vec2 q=vec2(fbm(uv+tt+mm),fbm(uv+vec2(1.3,2.1)-tt));vec2 w=vec2(fbm(uv+2.5*q+vec
 vec3 c1=vec3(.04,.04,.045),c2=vec3(.17,.19,.36),c3=vec3(.42,.24,.16),c4=vec3(1.,.32,.12);
 vec3 col=mix(c1,c2,smoothstep(.2,.8,f));col=mix(col,c3,smoothstep(.5,.95,q.y)*.7);col+=c4*pow(smoothstep(.55,.9,w.x*f),2.5)*.6;float g=exp(-4.5*length(uv-(m-.5)*vec2(r.x/r.y,1.)*1.2));col+=vec3(.18,.16,.28)*g*.9;
 float vig=smoothstep(1.4,.3,length(uv*vec2(.8,1.1)));col*=mix(.55,1.,vig);
-col+=(hash(gl_FragCoord.xy+t)-.5)*.02;o=vec4(col,1.);}`;
+o=vec4(col,1.);}`;
 const sh=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS)){console.warn(gl.getShaderInfoLog(x));return null;}return x;};
 const pr=gl.createProgram();const a=sh(gl.VERTEX_SHADER,vs),b=sh(gl.FRAGMENT_SHADER,fs);if(!a||!b)return;gl.attachShader(pr,a);gl.attachShader(pr,b);gl.linkProgram(pr);gl.useProgram(pr);
 const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
 const ur=gl.getUniformLocation(pr,'r'),ut=gl.getUniformLocation(pr,'t'),um=gl.getUniformLocation(pr,'m');let mx=.5,my=.5,smx=.5,smy=.5;
 addEventListener('pointermove',e=>{mx=e.clientX/innerWidth;my=1-e.clientY/innerHeight;},{passive:true});
-function size(){const d=Math.min(devicePixelRatio,1.5)*.6;cv.width=Math.floor(innerWidth*d);cv.height=Math.floor(innerHeight*d);gl.viewport(0,0,cv.width,cv.height);}size();addEventListener('resize',size);
+function size(){const d=Math.min(devicePixelRatio,2)*.85;cv.width=Math.floor(innerWidth*d);cv.height=Math.floor(innerHeight*d);gl.viewport(0,0,cv.width,cv.height);}size();addEventListener('resize',size);
 let vis=true;new IntersectionObserver(es=>{vis=es[0].isIntersecting;},{threshold:0}).observe(cv);
 const t0=performance.now();(function frame(){if(vis&&!document.hidden){smx+=(mx-smx)*.03;smy+=(my-smy)*.03;gl.uniform2f(ur,cv.width,cv.height);gl.uniform1f(ut,(performance.now()-t0)/1000);gl.uniform2f(um,smx,smy);gl.drawArrays(gl.TRIANGLES,0,3);}requestAnimationFrame(frame);})();
 })();
