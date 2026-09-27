@@ -1,5 +1,5 @@
 import {spawn} from 'node:child_process';import fs from 'node:fs';
-const SP='/private/tmp/claude-501/-Users-nishishimahiroshi-Life-Projects/856b5066-4179-45fe-9e45-31937aa082be/scratchpad';
+import os from 'node:os';const SP=os.tmpdir();
 const CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';const PORT=9800+Math.floor(Math.random()*100);
 const url='file://'+process.cwd()+'/index.html';
 const chrome=spawn(CHROME,['--headless=new','--use-angle=swiftshader','--enable-unsafe-swiftshader','--hide-scrollbars','--remote-debugging-port='+PORT,'--user-data-dir='+SP+'/cdp/s'+PORT,'about:blank'],{stdio:'ignore'});
