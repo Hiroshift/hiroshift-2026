@@ -461,7 +461,7 @@ vec3 atmosphere(vec3 ray,vec3 sun,out vec3 transmittance){
 // Three bounded cloud banks. Isotropic detail and rounded lobes avoid horizontal noise bands.
 // Time is a rigid horizontal translation, not a deformation of the density field.
 float cloudDensity(vec2 p){
- if(p.y<.04||p.y>.37)return 0.;
+ if(p.y<.07||p.y>.34)return 0.;
  float aspect=resolution.x/resolution.y;
  p.x-=sin(elapsed*.0027)*.035;
  float bank=0.;
@@ -475,7 +475,7 @@ float cloudDensity(vec2 p){
   float edge=(fbm(p*19.+k*7.+drift)-.5)*.44+(fbm(p*58.+k*3.-drift*1.7)-.5)*.16;
   if(lobes>-.35)bank=max(bank,smoothstep(-.12,.44,lobes+edge));
  }
- return bank*smoothstep(.04,.13,p.y)*(1.-smoothstep(.27,.37,p.y));
+ return bank;
 }
 // Inverse of the final ACES + gamma stage: art-directed sRGB anchors survive tonemapping.
 vec3 displayToHDR(vec3 c){
@@ -494,7 +494,7 @@ vec3 dawnPalette(float phase,float sunX,float sunY){
  float near=exp(-sdx*sdx/mix(.10,.9,phase));
  vec3 c=mix(mix(lowAway,low,near),middle,smoothstep(.13,.52,uv.y));
  c=mix(c,zenith,smoothstep(.52,1.,uv.y));
- c=mix(c,band,exp(-pow((uv.y-.13)/mix(.045,.08,early),2.))*.8*(.12+.88*exp(-sdx*sdx/mix(.05,.6,phase))));
+ c=mix(c,band,exp(-pow((uv.y-.13)/mix(.016,.06,early),2.))*(.12+.88*exp(-sdx*sdx/mix(.05,.6,phase))));
  vec2 sunDelta=vec2((uv.x-sunX)*resolution.x/resolution.y,uv.y-sunY);
  float halo=exp(-dot(sunDelta,sunDelta)/.024)*smoothstep(.22,.55,phase);
  c=mix(c,mix(vec3(255,226,184),vec3(255,238,209),late)/255.,halo*.40);
@@ -537,7 +537,7 @@ void main(){
  }
  sky=sky*(1.-opacity)+cloudLight;
  // 横に引かれた薄い層雲：太陽の方角だけ下から淡く照らされる
- float strat=smoothstep(.55,.82,fbm(vec2(field.x*1.1+elapsed*.0012,field.y*34.)))*smoothstep(.09,.18,uv.y)*(1.-smoothstep(.20,.28,uv.y));
+ float strat=smoothstep(.55,.82,fbm(vec2(field.x*1.1+elapsed*.0012,field.y*34.)))*smoothstep(.135,.15,uv.y)*(1.-smoothstep(.19,.26,uv.y));
  float sunSide=exp(-pow((uv.x-sunX)*aspect,2.)/mix(.12,.8,scroll));
  sky=mix(sky,displayToHDR(mix(vec3(.10,.10,.15),mix(vec3(.60,.42,.40),vec3(.76,.64,.56),day),sunSide)),strat*.45);
  // Sample cloud occlusion along the projected sun ray (screen-space light shafts).
