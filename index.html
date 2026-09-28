@@ -58,7 +58,7 @@ h1,h2,h3{font-weight:900;text-wrap:balance}
 @media (max-width:720px){.top nav a:not([href='#works']):not([href='#contact']){display:none}.top nav{gap:16px}}
 /* hero */
 .hero{position:relative;min-height:100svh;display:grid;grid-template-rows:1fr auto;overflow:hidden;isolation:isolate}
-#gl{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;background:linear-gradient(to top,var(--ink),transparent 12%),linear-gradient(90deg,rgba(7,11,28,.68),rgba(7,11,28,.25)),linear-gradient(to top,#5b4a7a 0%,#f0a07a 13%,#5b4a7a 20%,#1a2350 52%,#070b1c 100%)}
+#gl{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;background:linear-gradient(to top,var(--ink),transparent 12%),linear-gradient(90deg,rgba(7,11,28,.68),rgba(7,11,28,.25)),linear-gradient(to top,#32284a 0%,#b06c58 13%,#32284a 20%,#0f1124 52%,#0a0a0d 100%)}
 .hero .body{display:grid;align-content:end;padding-top:clamp(120px,18vh,200px);padding-bottom:clamp(28px,4vw,56px)}
 .hero .kicker{display:flex;gap:18px;align-items:center;color:var(--fog-2);margin-bottom:clamp(18px,2vw,28px)}
 .hero .kicker i{display:block;width:40px;height:1px;background:var(--fog)}
@@ -463,15 +463,17 @@ vec3 atmosphere(vec3 ray,vec3 sun,out vec3 transmittance){
 float cloudDensity(vec2 p){
  if(p.y<.07||p.y>.34)return 0.;
  float aspect=resolution.x/resolution.y;
- p.x-=sin(elapsed*.008)*.035;
+ p.x-=sin(elapsed*.0027)*.035;
  float bank=0.;
  for(int i=0;i<3;i++){
   float k=float(i);
-  vec2 center=vec2((.18+k*.33)*aspect,.20+.035*sin(k*4.));
-  vec2 radius=vec2(aspect*(.135+.015*k),.055+.009*k);
+  vec2 center=vec2((.18+k*.33+.012*sin(elapsed*.007+k*2.))*aspect,.20+.035*sin(k*4.)+.006*sin(elapsed*.0057+k*3.));
+  vec2 radius=vec2(aspect*(.135+.015*k),.055+.009*k)*(1.+.05*sin(elapsed*.0043+k*5.));
   vec2 q=(p-center)/radius;
   float lobes=max(1.-length(q),max(.78-length(q-vec2(.46,.28)),.72-length(q+vec2(.48,-.12))));
-  if(lobes>-.35)bank=max(bank,smoothstep(-.12,.44,lobes+(fbm(p*19.+k*7.)-.5)*.44));
+  vec2 drift=vec2(elapsed*.002,-elapsed*.0013);
+  float edge=(fbm(p*19.+k*7.+drift)-.5)*.44+(fbm(p*58.+k*3.-drift*1.7)-.5)*.16;
+  if(lobes>-.35)bank=max(bank,smoothstep(-.12,.44,lobes+edge));
  }
  return bank;
 }
@@ -483,21 +485,24 @@ vec3 displayToHDR(vec3 c){
 }
 vec3 dawnPalette(float phase,float sunX,float sunY){
  float early=smoothstep(0.,.5,phase),late=smoothstep(.5,1.,phase);
- vec3 zenith=mix(mix(vec3(7,11,28),vec3(22,36,77),early),vec3(44,74,130),late)/255.;
- vec3 middle=mix(mix(vec3(26,35,80),vec3(74,106,168),early),vec3(126,161,205),late)/255.;
- vec3 low=mix(mix(vec3(91,74,122),vec3(255,199,154),early),vec3(207,224,242),late)/255.;
- vec3 band=mix(mix(vec3(240,160,122),vec3(255,199,154),early),vec3(207,224,242),late)/255.;
- vec3 c=mix(low,middle,smoothstep(.13,.52,uv.y));
+ vec3 zenith=mix(mix(vec3(10,10,13),vec3(12,15,28),early),vec3(20,27,52),late)/255.;
+ vec3 middle=mix(mix(vec3(15,17,36),vec3(30,38,74),early),vec3(48,62,104),late)/255.;
+ vec3 low=mix(mix(vec3(50,40,70),vec3(118,86,90),early),vec3(112,122,152),late)/255.;
+ vec3 lowAway=mix(mix(vec3(22,22,42),vec3(40,42,74),early),vec3(66,80,118),late)/255.;
+ vec3 band=mix(mix(vec3(176,108,88),vec3(190,132,114),early),vec3(156,164,188),late)/255.;
+ float sdx=(uv.x-sunX)*resolution.x/resolution.y;
+ float near=exp(-sdx*sdx/mix(.10,.9,phase));
+ vec3 c=mix(mix(lowAway,low,near),middle,smoothstep(.13,.52,uv.y));
  c=mix(c,zenith,smoothstep(.52,1.,uv.y));
- c=mix(c,band,exp(-pow((uv.y-.13)/mix(.021,.08,early),2.)));
+ c=mix(c,band,exp(-pow((uv.y-.13)/mix(.016,.06,early),2.))*(.12+.88*exp(-sdx*sdx/mix(.05,.6,phase))));
  vec2 sunDelta=vec2((uv.x-sunX)*resolution.x/resolution.y,uv.y-sunY);
  float halo=exp(-dot(sunDelta,sunDelta)/.024)*smoothstep(.22,.55,phase);
- c=mix(c,mix(vec3(255,226,184),vec3(255,238,209),late)/255.,halo*.72);
- return displayToHDR(c);
+ c=mix(c,mix(vec3(255,226,184),vec3(255,238,209),late)/255.,halo*.40);
+ return displayToHDR(c*.88);
 }
 void main(){
  float aspect=resolution.x/resolution.y;
- float dawn=smoothstep(0.,8.,elapsed);
+ float dawn=smoothstep(0.,180.,elapsed);
  float altitude=radians(mix(-6.,8.,scroll)+.65*dawn*(1.-scroll));
  float sunX=.76+pointer.x*.012;float azimuth=(uv.x-sunX)*min(aspect,2.)*1.15;
  float elevation=(uv.y-.13)*.85;
@@ -518,26 +523,31 @@ void main(){
  vec2 lightVector=vec2((sunUV.x-uv.x)*aspect,sunUV.y-uv.y);
  vec2 lightDirection=lightVector/max(length(lightVector),.001);
  float forward=pow(max(dot(ray,sun),0.),18.);
+ float inner=.62+.38*fbm(field*27.+vec2(elapsed*.0015,elapsed*.001));
  for(int i=0;i<3;i++){
   if(i>=cloudSteps)break;
   vec2 p=field+vec2(float(i)*.009,float(i)*.006);
-  float d=cloudDensity(p);float towardSun=cloudDensity(p+lightDirection*.045);
+  float d=cloudDensity(p)*inner;float towardSun=cloudDensity(p+lightDirection*.045);
   float edge=max(d-towardSun,0.);
   float a=1.-exp(-d*2.6/float(cloudSteps));
-  vec3 ambient=displayToHDR(mix(vec3(.14,.18,.28),vec3(.32,.40,.53),day));
-  vec3 rim=displayToHDR(mix(vec3(.94,.63,.59),vec3(1.,.87,.68),day));
+  vec3 ambient=displayToHDR(mix(vec3(.05,.06,.095),vec3(.12,.145,.21),day));
+  vec3 rim=displayToHDR(mix(vec3(.62,.42,.40),vec3(.72,.62,.50),day));
   float lining=clamp(edge*3.2*(.25+forward*.75),0.,.85);
   cloudLight+=(1.-opacity)*a*mix(ambient,rim,lining);opacity+=(1.-opacity)*a;
  }
  sky=sky*(1.-opacity)+cloudLight;
+ // 横に引かれた薄い層雲：太陽の方角だけ下から淡く照らされる
+ float strat=smoothstep(.55,.82,fbm(vec2(field.x*1.1+elapsed*.0012,field.y*34.)))*smoothstep(.135,.15,uv.y)*(1.-smoothstep(.19,.26,uv.y));
+ float sunSide=exp(-pow((uv.x-sunX)*aspect,2.)/mix(.12,.8,scroll));
+ sky=mix(sky,displayToHDR(mix(vec3(.10,.10,.15),mix(vec3(.60,.42,.40),vec3(.76,.64,.56),day),sunSide)),strat*.45);
  // Sample cloud occlusion along the projected sun ray (screen-space light shafts).
  float shafts=0.,weight=1.;
- for(int i=0;i<4;i++){
-  float f=(float(i)+.5)/4.;vec2 p=mix(field,vec2(sunUV.x*aspect,sunUV.y),f*.85);
+ for(int i=0;i<3;i++){
+  float f=(float(i)+.5)/3.;vec2 p=mix(field,vec2(sunUV.x*aspect,sunUV.y),f*.85);
   shafts+=(1.-cloudDensity(p)*.9)*weight;weight*=.86;
  }
  float halo=exp(-length(lightVector)*5.5);
- sky+=displayToHDR(vec3(1.,.89,.75))*shafts/4.*halo*.018*day*(1.-opacity*.7);
+ sky+=displayToHDR(vec3(1.,.89,.75))*shafts/3.*halo*.018*day*(1.-opacity*.7);
  // Dissolve the bottom into the site's ink, including the last strip behind the nav.
  sky=mix(displayToHDR(vec3(10,10,11)/255.),sky,smoothstep(0.,.11,uv.y));
  // Store bounded HDR in portable RGBA8; no float render-target extension needed.
@@ -613,7 +623,7 @@ try{
  }
 }catch(error){fallback(error.message);return;}
 const constrained=(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=4;
-let quality=1,halfWidth=1,halfHeight=1,steps=3,visible=false,progress=0,heroHeight=1,heroTop=0;
+let shown=0,quality=1,halfWidth=1,halfHeight=1,steps=3,visible=false,progress=0,heroHeight=1,heroTop=0;
 let mx=0,my=0,smx=0,smy=0,elapsed=0,lastTime=0,slowFrames=0,frameCount=0,frameTime=0;
 function updateScroll(){progress=Math.max(0,Math.min(1,(scrollY-heroTop)/heroHeight));}
 function size(){
@@ -621,7 +631,7 @@ function size(){
  const bounds=hero.getBoundingClientRect();heroHeight=Math.max(1,bounds.height);heroTop=bounds.top+scrollY;updateScroll();
  const small=bounds.width<700;const d=Math.min(devicePixelRatio||1,2)*.85*(small?.72:1)*(constrained?.8:1)*quality;
  cv.width=Math.max(2,Math.floor(bounds.width*d));cv.height=Math.max(2,Math.floor(bounds.height*d));
- halfWidth=Math.max(1,Math.floor(cv.width/2));halfHeight=Math.max(1,Math.floor(cv.height/2));steps=small||constrained||quality<1?2:3;
+ halfWidth=Math.max(1,Math.floor(cv.width/(small||constrained?2:1.33)));halfHeight=Math.max(1,Math.floor(cv.height/(small||constrained?2:1.33)));steps=small||constrained||quality<1?2:3;
  for(const {texture,fbo} of targets){
   gl.bindTexture(gl.TEXTURE_2D,texture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,halfWidth,halfHeight,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
   gl.bindFramebuffer(gl.FRAMEBUFFER,fbo);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,texture,0);
@@ -632,7 +642,7 @@ function size(){
 function bindTexture(unit,texture){gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,texture);}
 function draw(){
  gl.bindFramebuffer(gl.FRAMEBUFFER,targets[0].fbo);gl.viewport(0,0,halfWidth,halfHeight);gl.useProgram(scene.p);
- gl.uniform2f(scene.u.resolution,cv.width,cv.height);gl.uniform2f(scene.u.pointer,smx,smy);gl.uniform1f(scene.u.elapsed,elapsed);gl.uniform1f(scene.u.scroll,progress);gl.uniform1i(scene.u.cloudSteps,steps);gl.drawArrays(gl.TRIANGLES,0,3);
+ gl.uniform2f(scene.u.resolution,cv.width,cv.height);gl.uniform2f(scene.u.pointer,smx,smy);gl.uniform1f(scene.u.elapsed,elapsed);gl.uniform1f(scene.u.scroll,shown);gl.uniform1i(scene.u.cloudSteps,steps);gl.drawArrays(gl.TRIANGLES,0,3);
  gl.bindFramebuffer(gl.FRAMEBUFFER,targets[1].fbo);gl.useProgram(bloom.p);bindTexture(0,targets[0].texture);
  gl.uniform1i(bloom.u.scene,0);gl.uniform2f(bloom.u.texel,1/halfWidth,1/halfHeight);gl.drawArrays(gl.TRIANGLES,0,3);
  gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,cv.width,cv.height);gl.useProgram(composite.p);bindTexture(1,targets[1].texture);
@@ -642,7 +652,7 @@ function draw(){
 function frame(now){
  raf=0;if(failed||!visible||document.hidden||motion.matches)return;
  const delta=lastTime?Math.min((now-lastTime)/1000,.1):0;lastTime=now;elapsed+=delta;
- const ease=1.-Math.exp(-delta*2.);smx+=(mx-smx)*ease;smy+=(my-smy)*ease;
+ const ease=1.-Math.exp(-delta*2.);shown+=(progress-shown)*(1.-Math.exp(-delta/2.5));smx+=(mx-smx)*ease;smy+=(my-smy)*ease;
  draw();
  // Sustained frame pressure lowers resolution once per measurement window.
  if(delta>0&&elapsed>2){frameTime+=delta;frameCount++;if(delta>.024)slowFrames++;}
